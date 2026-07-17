@@ -21,9 +21,13 @@ RUN apk add --no-cache \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
+COPY docker/php/entrypoint.sh /usr/local/bin/app-entrypoint
+
+RUN chmod +x /usr/local/bin/app-entrypoint
 
 WORKDIR /var/www/html
 
 EXPOSE 9000
 
+ENTRYPOINT ["/usr/local/bin/app-entrypoint"]
 CMD ["php-fpm"]
