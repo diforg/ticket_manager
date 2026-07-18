@@ -1,10 +1,5 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps({
@@ -31,69 +26,113 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head title="Entrar" />
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+        <div class="mb-6 text-center">
+            <h1 class="text-2xl font-semibold tracking-tight text-white">Entrar</h1>
+            <p class="mt-2 text-sm text-zinc-400">
+                Acesse sua conta para acompanhar os tickets em andamento.
+            </p>
+        </div>
+
+        <div
+            v-if="status"
+            class="mb-4 rounded-xl border border-emerald-400/35 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-200"
+        >
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="space-y-4">
             <div>
-                <InputLabel for="email" value="Email" />
+                <label for="email" class="block text-sm font-medium text-zinc-200">
+                    E-mail
+                </label>
 
-                <TextInput
+                <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
                     v-model="form.email"
                     required
                     autofocus
                     autocomplete="username"
+                    placeholder="seuemail@empresa.com"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <p v-if="form.errors.email" class="mt-2 text-sm text-rose-300">
+                    {{ form.errors.email }}
+                </p>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+            <div>
+                <label
+                    for="password"
+                    class="block text-sm font-medium text-zinc-200"
+                >
+                    Senha
+                </label>
 
-                <TextInput
+                <input
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
+                    placeholder="Sua senha"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <p v-if="form.errors.password" class="mt-2 text-sm text-rose-300">
+                    {{ form.errors.password }}
+                </p>
             </div>
 
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
+            <div class="flex items-center justify-between gap-4">
+                <label class="inline-flex items-center gap-2 text-sm text-zinc-300">
+                    <input
+                        name="remember"
+                        type="checkbox"
+                        v-model="form.remember"
+                        class="h-4 w-4 rounded border-white/20 bg-black/35 text-emerald-400 focus:ring-2 focus:ring-emerald-400/45"
+                    />
+                    Lembrar-me
                 </label>
-            </div>
 
-            <div class="mt-4 flex items-center justify-end">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    class="text-sm text-zinc-300 transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
                 >
-                    Forgot your password?
+                    Esqueci minha senha
                 </Link>
+            </div>
 
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
+            <button
+                type="submit"
+                class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-6 py-3 text-sm font-semibold text-black shadow-[0_0_30px_rgba(16,185,129,0.25)] transition duration-200 hover:bg-emerald-300 hover:shadow-[0_0_42px_rgba(16,185,129,0.35)] focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-[#0b0b0b] disabled:cursor-not-allowed disabled:opacity-60"
+                :class="{ 'opacity-80': form.processing }"
+                :disabled="form.processing"
+            >
+                Entrar
+            </button>
+
+            <div class="pt-1 text-center text-sm text-zinc-400">
+                Não tem uma conta?
+                <Link
+                    :href="route('register')"
+                    class="font-medium text-zinc-200 transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
                 >
-                    Log in
-                </PrimaryButton>
+                    Cadastre-se
+                </Link>
+            </div>
+
+            <div class="text-center text-sm text-zinc-500">
+                <Link
+                    href="/"
+                    class="transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                >
+                    Voltar para a página inicial
+                </Link>
             </div>
         </form>
     </GuestLayout>
