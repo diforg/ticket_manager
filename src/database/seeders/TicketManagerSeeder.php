@@ -55,6 +55,15 @@ class TicketManagerSeeder extends Seeder
             'updated_at' => $now,
         ]);
 
+        DB::table('tickets')->insert([
+            'user_id' => $customerOne->id,
+            'title' => 'Ajuste concluido no acesso ao portal',
+            'description' => 'O problema de acesso foi resolvido apos ajuste de permissoes.',
+            'status' => 'resolved',
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);
+
         $messageOneId = DB::table('messages')->insertGetId([
             'ticket_id' => $ticketOneId,
             'user_id' => $customerOne->id,

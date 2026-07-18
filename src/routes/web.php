@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,19 +24,13 @@ Route::middleware(['auth', 'verified'])->group(function () use ($dashboardRouteF
         return redirect()->route($dashboardRouteFor($request->user()->role));
     })->name('dashboard');
 
-    Route::get('/dashboard/client', function () {
-        return Inertia::render('Dashboard', [
-            'dashboardLabel' => 'Cliente',
-            'dashboardDescription' => 'Acompanhe seus chamados, atualizações e interações com a equipe de suporte.',
-        ]);
-    })->name('client.dashboard');
+    Route::get('/dashboard/client', [TicketController::class, 'clientIndex'])
+        ->middleware('role:client')
+        ->name('client.dashboard');
 
-    Route::get('/dashboard/attendant', function () {
-        return Inertia::render('Dashboard', [
-            'dashboardLabel' => 'Atendente',
-            'dashboardDescription' => 'Gerencie chamados, priorize atendimentos e acompanhe a operação do suporte.',
-        ]);
-    })->name('attendant.dashboard');
+    Route::get('/dashboard/attendant', [TicketController::class, 'attendantIndex'])
+        ->middleware('role:attendant')
+        ->name('attendant.dashboard');
 });
 
 Route::middleware('auth')->group(function () {
