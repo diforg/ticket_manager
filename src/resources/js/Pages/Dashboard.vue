@@ -1,6 +1,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+
+defineProps({
+    dashboardLabel: {
+        type: String,
+        default: 'Dashboard',
+    },
+    dashboardDescription: {
+        type: String,
+        default: 'Você está autenticado e pode acessar as funcionalidades do sistema.',
+    },
+});
 </script>
 
 <template>
@@ -11,7 +22,7 @@ import { Head } from '@inertiajs/vue3';
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
-                Dashboard
+                {{ dashboardLabel }}
             </h2>
         </template>
 
@@ -21,7 +32,7 @@ import { Head } from '@inertiajs/vue3';
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900">
-                        You're logged in!
+                        {{ dashboardDescription }}
                     </div>
                 </div>
             </div>

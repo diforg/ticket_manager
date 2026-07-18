@@ -1,22 +1,42 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+$dashboardRouteFor = fn (?string $role): string => match ($role) {
+    'attendant' => 'attendant.dashboard',
+    default => 'client.dashboard',
+};
+
+Route::get('/', function (Request $request) use ($dashboardRouteFor) {
+    if ($request->user() !== null) {
+        return redirect()->route($dashboardRouteFor($request->user()->role));
+    }
+
+    return Inertia::render('Welcome');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () use ($dashboardRouteFor) {
+    Route::get('/dashboard', function (Request $request) use ($dashboardRouteFor) {
+        return redirect()->route($dashboardRouteFor($request->user()->role));
+    })->name('dashboard');
+
+    Route::get('/dashboard/client', function () {
+        return Inertia::render('Dashboard', [
+            'dashboardLabel' => 'Cliente',
+            'dashboardDescription' => 'Acompanhe seus chamados, atualizações e interações com a equipe de suporte.',
+        ]);
+    })->name('client.dashboard');
+
+    Route::get('/dashboard/attendant', function () {
+        return Inertia::render('Dashboard', [
+            'dashboardLabel' => 'Atendente',
+            'dashboardDescription' => 'Gerencie chamados, priorize atendimentos e acompanhe a operação do suporte.',
+        ]);
+    })->name('attendant.dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
