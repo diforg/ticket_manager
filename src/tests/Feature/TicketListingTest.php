@@ -3,15 +3,15 @@
 namespace Tests\Feature;
 
 use App\Models\Ticket;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
+use Tests\Traits\CreatesUsers;
 
 class TicketListingTest extends TestCase
 {
     use RefreshDatabase;
+    use CreatesUsers;
 
     public function test_client_sees_only_their_own_tickets(): void
     {
@@ -130,21 +130,5 @@ class TicketListingTest extends TestCase
         $this->actingAs($attendant)
             ->get('/dashboard/client')
             ->assertForbidden();
-    }
-
-    private function createUser(string $role): User
-    {
-        static $counter = 1;
-
-        $user = User::query()->create([
-            'name' => ucfirst($role).' '.$counter,
-            'email' => $role.$counter.'@example.test',
-            'password' => Hash::make('password'),
-            'role' => $role,
-        ]);
-
-        $counter++;
-
-        return $user;
     }
 }

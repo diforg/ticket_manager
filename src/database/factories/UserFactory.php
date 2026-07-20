@@ -42,4 +42,14 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Indicate that the user is an attendant.
+     */
+    public function attendant(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'attendant',
+        ]);
+    }
 }

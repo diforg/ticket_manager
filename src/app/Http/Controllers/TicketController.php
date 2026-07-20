@@ -65,13 +65,20 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request, CreateTicketAction $action): RedirectResponse
     {
         $ticket = $action->handle(
-            client: $request->user(),
+            user: $request->user(),
             data: $request->validated(),
         );
 
         return redirect()
             ->route('tickets.show', $ticket)
             ->with('success', 'Ticket criado com sucesso.');
+    }
+
+    public function show(Ticket $ticket): Response
+    {
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket,
+        ]);
     }
 
 }
