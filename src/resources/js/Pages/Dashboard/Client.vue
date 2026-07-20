@@ -1,7 +1,8 @@
 <script setup>
 import TicketList from '@/Components/TicketList.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     tickets: {
@@ -23,9 +24,17 @@ defineProps({
 
         <div class="py-12 bg-[#080808]">
             <div class="mx-auto max-w-7xl space-y-4 sm:px-6 lg:px-8">
-                <p class="text-sm text-zinc-300">
-                    Listagem dos seus tickets de suporte.
-                </p>
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-zinc-300">
+                        Listagem dos seus tickets de suporte.
+                    </p>
+                    
+                    <Link :href="route('tickets.create')" as="button" type="button">
+                        <PrimaryButton>
+                            + Novo Ticket
+                        </PrimaryButton>
+                    </Link>
+                </div>
 
                 <TicketList :tickets="tickets" />
             </div>
