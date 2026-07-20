@@ -31,6 +31,14 @@ Route::middleware(['auth', 'verified'])->group(function () use ($dashboardRouteF
     Route::get('/dashboard/attendant', [TicketController::class, 'attendantIndex'])
         ->middleware('role:attendant')
         ->name('attendant.dashboard');
+
+    Route::get('/tickets/create', [TicketController::class, 'create'])
+        ->middleware('role:client')
+        ->name('tickets.create');
+
+    Route::post('/tickets', [TicketController::class, 'store'])
+        ->middleware('role:client')
+        ->name('tickets.store');
 });
 
 Route::middleware('auth')->group(function () {

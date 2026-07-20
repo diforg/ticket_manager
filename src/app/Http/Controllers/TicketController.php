@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTicketRequest;
+use App\Actions\CreateTicketAction;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -53,4 +56,22 @@ class TicketController extends Controller
             ]),
         ]);
     }
+
+    public function create(): Response
+    {
+        return Inertia::render('Tickets/Create');
+    }
+
+    public function store(StoreTicketRequest $request, CreateTicketAction $action): RedirectResponse
+    {
+        $ticket = $action->handle(
+            client: $request->user(),
+            data: $request->validated(),
+        );
+
+        return redirect()
+            ->route('tickets.show', $ticket)
+            ->with('success', 'Ticket criado com sucesso.');
+    }
+
 }
