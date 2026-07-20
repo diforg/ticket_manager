@@ -10,4 +10,9 @@ class TicketPolicy
     {
         return $user->role === 'client';
     }
+
+    public function update(User $user): bool
+    {
+        return $user->role === 'attendant';
+    }
 }

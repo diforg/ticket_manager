@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketStatusRequest;
 use App\Actions\CreateTicketAction;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -79,6 +80,15 @@ class TicketController extends Controller
         return Inertia::render('Tickets/Show', [
             'ticket' => $ticket,
         ]);
+    }
+
+    public function updateStatus(UpdateTicketStatusRequest $request, Ticket $ticket): RedirectResponse
+    {
+        $ticket->update([
+            'status' => $request->validated()['status'],
+        ]);
+
+        return back()->with('success', 'Status do ticket atualizado com sucesso.');
     }
 
 }

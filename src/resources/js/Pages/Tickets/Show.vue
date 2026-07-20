@@ -1,12 +1,22 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     ticket: {
         type: Object,
         required: true,
     },
+});
+
+const page = usePage();
+const isAttendant = page.props.auth.user.role === 'attendant';
+
+const statusForm = useForm({
+    status: props.ticket.status,
 });
 
 const statusLabel = {
@@ -16,6 +26,12 @@ const statusLabel = {
 };
 
 const formatStatus = (status) => statusLabel[status] ?? status;
+
+const submitStatus = () => {
+    statusForm.patch(route('tickets.status.update', props.ticket), {
+        preserveScroll: true,
+    });
+};
 
 const formatDate = (value) => {
     if (!value) {
@@ -47,7 +63,34 @@ const formatDate = (value) => {
                             <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
                                 Status
                             </p>
-                            <p class="mt-1 text-base text-zinc-100">
+                            <template v-if="isAttendant">
+                                <form @submit.prevent="submitStatus" class="mt-2 space-y-3">
+                                    <select
+                                        v-model="statusForm.status"
+                                        class="block w-full rounded-md border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm focus:border-emerald-400 focus:ring-emerald-400"
+                                    >
+                                        <option value="open">Aberto</option>
+                                        <option value="in_progress">Em andamento</option>
+                                        <option value="resolved">Resolvido</option>
+                                    </select>
+
+                                    <InputError :message="statusForm.errors.status" />
+
+                                    <div class="flex items-center gap-4">
+                                        <PrimaryButton :disabled="statusForm.processing">
+                                            Salvar Status
+                                        </PrimaryButton>
+
+                                        <SecondaryButton
+                                            type="button"
+                                            @click="statusForm.status = ticket.status"
+                                        >
+                                            Desfazer
+                                        </SecondaryButton>
+                                    </div>
+                                </form>
+                            </template>
+                            <p v-else class="mt-1 text-base text-zinc-100">
                                 {{ formatStatus(ticket.status) }}
                             </p>
                         </div>

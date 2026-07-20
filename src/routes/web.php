@@ -43,6 +43,10 @@ Route::middleware(['auth', 'verified'])->group(function () use ($dashboardRouteF
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])
         ->name('tickets.show');
 
+    Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])
+        ->middleware('role:attendant')
+        ->name('tickets.status.update');
+
 });
 
 Route::middleware('auth')->group(function () {
