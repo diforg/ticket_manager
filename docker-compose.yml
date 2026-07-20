@@ -1,0 +1,110 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: ticket_manager_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ticket_manager
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    container_name: ticket_manager_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html:ro
+    depends_on:
+      - app
+    networks:
+      - ticket_manager
+
+  db:
+    image: postgres:16-alpine
+    container_name: ticket_manager_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-ticket_manager}
+      POSTGRES_USER: ${DB_USERNAME:-ticket_manager}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ticket_manager}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-ticket_manager} -d ${DB_DATABASE:-ticket_manager}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ticket_manager
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ticket_manager_pgadmin
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ticket_manager
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: ticket_manager_queue
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: >
+      sh -c "if [ -f artisan ];
+      then php artisan queue:work --queue=default --sleep=3 --tries=3 --timeout=90;
+      else echo 'Arquivo artisan nao encontrado em /var/www/html. Adicione o projeto Laravel em ./src.' && tail -f /dev/null;
+      fi"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ticket_manager
+
+  node:
+    image: node:20-alpine
+    container_name: ticket_manager_node
+    working_dir: /var/www/html
+    command: >
+      sh -c "if [ -f package.json ];
+      then npm install && npm run dev -- --host 0.0.0.0 --port 5173;
+      else echo 'package.json nao encontrado em /var/www/html. Container node em modo espera.' && tail -f /dev/null;
+      fi"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - ticket_manager
+
+volumes:
+  db_data:
+
+networks:
+  ticket_manager:
+    driver: bridge
