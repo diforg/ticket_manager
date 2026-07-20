@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendTicketMessageNotificationJob;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTicketRequest;
@@ -112,10 +113,12 @@ class TicketController extends Controller
 
     public function storeMessage(StoreTicketMessageRequest $request, Ticket $ticket): RedirectResponse
     {
-        $ticket->messages()->create([
+        $message = $ticket->messages()->create([
             'user_id' => $request->user()->id,
             'body' => $request->validated()['body'],
         ]);
+
+        SendTicketMessageNotificationJob::dispatch($message);
 
         return back()->with('success', 'Mensagem enviada com sucesso.');
     }

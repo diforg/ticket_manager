@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\SendTicketMessageNotificationJob;
 use App\Models\Message;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -58,6 +60,8 @@ class TicketMessageTest extends TestCase
 
     public function test_client_can_send_message_to_own_ticket(): void
     {
+        config()->set('queue.default', 'database');
+
         $client = $this->createUser('client');
         $ticket = Ticket::factory()->for($client)->create();
 
@@ -73,6 +77,16 @@ class TicketMessageTest extends TestCase
             'user_id' => $client->id,
             'body' => 'Tenho uma atualização sobre o problema.',
         ]);
+
+        $this->assertDatabaseCount('jobs', 1);
+
+        $payload = DB::table('jobs')->value('payload');
+        $decodedPayload = json_decode($payload, true);
+
+        $this->assertNotFalse($payload);
+        $this->assertIsArray($decodedPayload);
+        $this->assertSame(SendTicketMessageNotificationJob::class, $decodedPayload['displayName']);
+        $this->assertSame(SendTicketMessageNotificationJob::class, $decodedPayload['data']['commandName']);
     }
 
     public function test_attendant_can_send_message_to_any_ticket(): void

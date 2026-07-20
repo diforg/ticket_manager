@@ -103,14 +103,8 @@ const senderLabel = (sender) => {
                                         <PrimaryButton :disabled="statusForm.processing">
                                             Salvar Status
                                         </PrimaryButton>
-
-                                        <SecondaryButton
-                                            type="button"
-                                            @click="statusForm.status = ticket.status"
-                                        >
-                                            Desfazer
-                                        </SecondaryButton>
                                     </div>
+
                                 </form>
                             </template>
                             <p v-else class="mt-1 text-base text-zinc-100">
@@ -191,14 +185,6 @@ const senderLabel = (sender) => {
                                 </p>
                             </div>
 
-                            <div>
-                                <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
-                                    Atualizado em
-                                </p>
-                                <p class="mt-1 text-sm text-zinc-300">
-                                    {{ formatDate(ticket.updated_at) }}
-                                </p>
-                            </div>
                         </div>
 
                         <div class="flex items-center justify-end gap-4">
