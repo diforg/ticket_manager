@@ -18,6 +18,15 @@ Arquivos base criados/configurados para frontend Inertia:
 - `resources/js/Layouts/AuthenticatedLayout.vue`
 - `resources/js/Layouts/GuestLayout.vue`
 
+## Decisões técnicas relevantes
+
+- O backend foi mantido em Laravel 13 para aproveitar o ecossistema nativo de autenticação, filas, policies e migrations.
+- A interface usa Inertia.js + Vue 3 para manter a experiencia de SPA sem separar o frontend em um projeto independente.
+- O Vite ficou responsavel pelo build e pelo ambiente de desenvolvimento do frontend.
+- O PostgreSQL foi escolhido como banco padrao do ambiente Docker.
+- As notificacoes de mensagens de ticket usam Laravel Queue para desacoplar o envio do fluxo principal da requisicao.
+- O ambiente local foi padronizado com Docker para reduzir divergencias entre maquina de desenvolvimento e execucao.
+
 ## Infraestrutura Docker
 
 Este repositório possui infraestrutura conteinerizada completa com os serviços:
@@ -67,7 +76,20 @@ docker compose exec app php artisan key:generate
 
 # 4) configurar banco no .env e executar migrations
 docker compose exec app php artisan migrate
+
+# 5) executar a suite de testes
+docker compose exec app php artisan test
 ```
+
+### Acesso padrão
+
+Os dados abaixo sao criados pelo seeder `TicketManagerSeeder` e servem como acesso inicial:
+
+- Atendente: `atendente@teste.local` / `password`
+- Cliente 1: `cliente1@teste.local` / `password`
+- Cliente 2: `cliente2@teste.local` / `password`
+
+Depois de subir o ambiente e rodar as migrations/seeders, entre em `http://localhost:8080/login` com uma dessas contas para validar o fluxo.
 
 ### Variáveis de banco (Docker)
 
