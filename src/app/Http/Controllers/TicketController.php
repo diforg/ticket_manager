@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\StoreTicketMessageRequest;
 use App\Http\Requests\UpdateTicketStatusRequest;
 use App\Actions\CreateTicketAction;
 use Illuminate\Http\RedirectResponse;
@@ -77,9 +78,46 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket): Response
     {
-        return Inertia::render('Tickets/Show', [
-            'ticket' => $ticket,
+        $this->authorize('view', $ticket);
+
+        $ticket->load([
+            'user:id,name,role',
+            'messages' => fn ($query) => $query
+                ->with('user:id,name,role')
+                ->oldest(),
         ]);
+
+        return Inertia::render('Tickets/Show', [
+            'ticket' => [
+                'id' => $ticket->id,
+                'title' => $ticket->title,
+                'description' => $ticket->description,
+                'status' => $ticket->status,
+                'requester' => $ticket->user?->name,
+                'created_at' => $ticket->created_at?->toISOString(),
+                'updated_at' => $ticket->updated_at?->toISOString(),
+                'messages' => $ticket->messages->map(fn ($message): array => [
+                    'id' => $message->id,
+                    'body' => $message->body,
+                    'created_at' => $message->created_at?->toISOString(),
+                    'sender' => [
+                        'id' => $message->user?->id,
+                        'name' => $message->user?->name,
+                        'role' => $message->user?->role,
+                    ],
+                ])->values()->all(),
+            ],
+        ]);
+    }
+
+    public function storeMessage(StoreTicketMessageRequest $request, Ticket $ticket): RedirectResponse
+    {
+        $ticket->messages()->create([
+            'user_id' => $request->user()->id,
+            'body' => $request->validated()['body'],
+        ]);
+
+        return back()->with('success', 'Mensagem enviada com sucesso.');
     }
 
     public function updateStatus(UpdateTicketStatusRequest $request, Ticket $ticket): RedirectResponse

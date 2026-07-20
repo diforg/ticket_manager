@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () use ($dashboardRouteF
         ->middleware('role:attendant')
         ->name('tickets.status.update');
 
+    Route::post('/tickets/{ticket}/messages', [TicketController::class, 'storeMessage'])
+        ->name('tickets.messages.store');
+
 });
 
 Route::middleware('auth')->group(function () {

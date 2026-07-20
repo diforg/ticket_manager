@@ -1,4 +1,6 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
+
 defineProps({
     tickets: {
         type: Array,
@@ -66,7 +68,12 @@ const formatDate = (value) => {
                 </tr>
                 <tr v-for="ticket in tickets" :key="ticket.id" class="border-l-4 border-l-transparent transition duration-150 ease-in-out hover:border-l-emerald-400 hover:bg-zinc-800/50">
                     <td class="px-4 py-3 text-sm font-medium text-zinc-100">
-                        {{ ticket.title }}
+                        <Link
+                            :href="route('tickets.show', ticket.id)"
+                            class="inline-block text-zinc-100 hover:text-emerald-300"
+                        >
+                            {{ ticket.title }}
+                        </Link>
                     </td>
                     <td v-if="showRequester" class="px-4 py-3 text-sm text-zinc-300">
                         {{ ticket.requester ?? '-' }}

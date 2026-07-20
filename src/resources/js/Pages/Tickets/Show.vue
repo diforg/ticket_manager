@@ -19,6 +19,10 @@ const statusForm = useForm({
     status: props.ticket.status,
 });
 
+const messageForm = useForm({
+    body: '',
+});
+
 const statusLabel = {
     open: 'Aberto',
     in_progress: 'Em andamento',
@@ -33,6 +37,15 @@ const submitStatus = () => {
     });
 };
 
+const submitMessage = () => {
+    messageForm.post(route('tickets.messages.store', props.ticket), {
+        preserveScroll: true,
+        onSuccess: () => {
+            messageForm.reset('body');
+        },
+    });
+};
+
 const formatDate = (value) => {
     if (!value) {
         return '-';
@@ -42,6 +55,16 @@ const formatDate = (value) => {
         dateStyle: 'short',
         timeStyle: 'short',
     }).format(new Date(value));
+};
+
+const senderLabel = (sender) => {
+    if (!sender) {
+        return 'Usuário';
+    }
+
+    const role = sender.role === 'attendant' ? 'Atendente' : 'Cliente';
+
+    return `${role}: ${sender.name}`;
 };
 </script>
 
@@ -102,6 +125,60 @@ const formatDate = (value) => {
                             <p class="mt-1 whitespace-pre-line text-sm leading-6 text-zinc-300">
                                 {{ ticket.description }}
                             </p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
+                                Conversa
+                            </p>
+
+                            <div class="mt-3 space-y-3">
+                                <div
+                                    v-for="message in ticket.messages"
+                                    :key="message.id"
+                                    class="rounded-md border border-zinc-700 bg-zinc-800 p-4"
+                                >
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                                            {{ senderLabel(message.sender) }}
+                                        </p>
+                                        <p class="text-xs text-zinc-400">
+                                            {{ formatDate(message.created_at) }}
+                                        </p>
+                                    </div>
+                                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-200">
+                                        {{ message.body }}
+                                    </p>
+                                </div>
+
+                                <p
+                                    v-if="ticket.messages.length === 0"
+                                    class="rounded-md border border-dashed border-zinc-700 bg-zinc-800/50 p-4 text-sm text-zinc-400"
+                                >
+                                    Ainda não há mensagens neste ticket.
+                                </p>
+                            </div>
+
+                            <form @submit.prevent="submitMessage" class="mt-4 space-y-3">
+                                <label class="block text-sm font-medium text-zinc-200" for="message-body">
+                                    Nova mensagem
+                                </label>
+                                <textarea
+                                    id="message-body"
+                                    v-model="messageForm.body"
+                                    rows="4"
+                                    class="block w-full rounded-md border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm focus:border-emerald-400 focus:ring-emerald-400"
+                                    placeholder="Digite sua mensagem"
+                                />
+
+                                <InputError :message="messageForm.errors.body" />
+
+                                <div class="flex justify-end">
+                                    <PrimaryButton :disabled="messageForm.processing">
+                                        Enviar Mensagem
+                                    </PrimaryButton>
+                                </div>
+                            </form>
                         </div>
 
                         <div class="grid gap-4 sm:grid-cols-2">
