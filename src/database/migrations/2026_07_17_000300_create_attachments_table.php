@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('message_id')->constrained('messages')->cascadeOnDelete();
             $table->string('file_path');
-            $table->string('file_name');
+            $table->string('original_name');
             $table->string('mime_type')->nullable();
             $table->integer('size');
+            $table->timestamps();
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendTicketMessageNotificationJob;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\StoreTicketMessageRequest;
@@ -12,6 +13,7 @@ use App\Actions\CreateTicketAction;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Str;
 
 class TicketController extends Controller
 {
@@ -84,7 +86,7 @@ class TicketController extends Controller
         $ticket->load([
             'user:id,name,role',
             'messages' => fn ($query) => $query
-                ->with('user:id,name,role')
+                ->with(['user:id,name,role', 'attachments'])
                 ->oldest(),
         ]);
 
@@ -106,6 +108,15 @@ class TicketController extends Controller
                         'name' => $message->user?->name,
                         'role' => $message->user?->role,
                     ],
+                    'attachments' => $message->attachments->map(fn ($attachment): array => [
+                        'id' => $attachment->id,
+                        'file_path' => $attachment->file_path,
+                        'original_name' => $attachment->original_name,
+                        'mime_type' => $attachment->mime_type,
+                        'size' => $attachment->size,
+                        'public_url' => $attachment->public_url,
+                        'display_type' => $attachment->display_type,
+                    ])->values()->all(),
                 ])->values()->all(),
             ],
         ]);
@@ -113,10 +124,28 @@ class TicketController extends Controller
 
     public function storeMessage(StoreTicketMessageRequest $request, Ticket $ticket): RedirectResponse
     {
-        $message = $ticket->messages()->create([
-            'user_id' => $request->user()->id,
-            'body' => $request->validated()['body'],
-        ]);
+        $validated = $request->validated();
+
+        $message = DB::transaction(function () use ($request, $ticket, $validated) {
+            $message = $ticket->messages()->create([
+                'user_id' => $request->user()->id,
+                'body' => $validated['body'],
+            ]);
+
+            foreach ($request->file('attachments', []) as $uploadedFile) {
+                $storedName = (string) Str::uuid().'.'.$uploadedFile->extension();
+                $storedPath = $uploadedFile->storeAs('attachments', $storedName, config('filesystems.default'));
+
+                $message->attachments()->create([
+                    'file_path' => $storedPath,
+                    'original_name' => $uploadedFile->getClientOriginalName(),
+                    'mime_type' => $uploadedFile->getClientMimeType(),
+                    'size' => $uploadedFile->getSize(),
+                ]);
+            }
+
+            return $message->load(['user:id,name,role', 'attachments']);
+        });
 
         SendTicketMessageNotificationJob::dispatch($message);
 
