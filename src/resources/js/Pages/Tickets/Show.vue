@@ -183,24 +183,24 @@ const senderLabel = (sender) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-zinc-100">
+            <h2 class="text-xl font-extrabold leading-tight text-[#111827]">
                 {{ ticket.title }}
             </h2>
         </template>
 
-        <div class="py-12 bg-[#080808]">
+        <div class="py-12">
             <div class="mx-auto max-w-4xl space-y-6 sm:px-6 lg:px-8">
-                <div class="rounded-lg border border-zinc-700 bg-zinc-900 p-6 shadow-sm sm:p-8">
+                <div class="rounded-3xl border border-[#ddd6fe] bg-white p-6 shadow-sm sm:p-8">
                     <div class="space-y-6">
                         <div>
-                            <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
+                            <p class="text-sm font-semibold uppercase tracking-wider text-[#6b21a8]">
                                 Status
                             </p>
                             <template v-if="isAttendant">
                                 <form @submit.prevent="submitStatus" class="mt-2 space-y-3">
                                     <select
                                         v-model="statusForm.status"
-                                        class="block w-full rounded-md border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm focus:border-emerald-400 focus:ring-emerald-400"
+                                        class="tm-select mt-2 block"
                                     >
                                         <option value="open">Aberto</option>
                                         <option value="in_progress">Em andamento</option>
@@ -217,22 +217,22 @@ const senderLabel = (sender) => {
 
                                 </form>
                             </template>
-                            <p v-else class="mt-1 text-base text-zinc-100">
+                            <p v-else class="mt-1 text-base text-[#1f2937]">
                                 {{ formatStatus(ticket.status) }}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
+                            <p class="text-sm font-semibold uppercase tracking-wider text-[#6b21a8]">
                                 Descrição
                             </p>
-                            <p class="mt-1 whitespace-pre-line text-sm leading-6 text-zinc-300">
+                            <p class="mt-1 whitespace-pre-line text-sm leading-6 text-[#374151]">
                                 {{ ticket.description }}
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
+                            <p class="text-sm font-semibold uppercase tracking-wider text-[#6b21a8]">
                                 Conversa
                             </p>
 
@@ -240,17 +240,17 @@ const senderLabel = (sender) => {
                                 <div
                                     v-for="message in ticket.messages"
                                     :key="message.id"
-                                    class="rounded-md border border-zinc-700 bg-zinc-800 p-4"
+                                    class="rounded-2xl border border-[#e9d5ff] bg-[#faf5ff] p-4"
                                 >
                                     <div class="flex flex-wrap items-center justify-between gap-2">
-                                        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                                        <p class="text-xs font-semibold uppercase tracking-wider text-[#6b21a8]">
                                             {{ senderLabel(message.sender) }}
                                         </p>
-                                        <p class="text-xs text-zinc-400">
+                                        <p class="text-xs text-[#9ca3af]">
                                             {{ formatDate(message.created_at) }}
                                         </p>
                                     </div>
-                                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-200">
+                                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-[#374151]">
                                         {{ message.body }}
                                     </p>
 
@@ -259,7 +259,7 @@ const senderLabel = (sender) => {
                                             v-for="attachment in message.attachments"
                                             :key="attachment.id"
                                             type="button"
-                                            class="flex w-full items-center gap-3 rounded-md border border-zinc-700 bg-zinc-900/80 px-3 py-2 text-left transition hover:border-emerald-400"
+                                            class="flex w-full items-center gap-3 rounded-2xl border border-[#ddd6fe] bg-white px-3 py-2 text-left transition hover:border-[#7c3aed]"
                                             @click="openMessageAttachment(attachment)"
                                         >
                                             <img
@@ -270,7 +270,7 @@ const senderLabel = (sender) => {
                                             >
                                             <div
                                                 v-else
-                                                class="flex h-12 w-12 items-center justify-center rounded bg-red-500/15 text-red-300"
+                                                class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-500"
                                             >
                                                 <svg viewBox="0 0 24 24" fill="none" class="h-7 w-7" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14.25 2.25H6.75a1.5 1.5 0 0 0-1.5 1.5v16.5a1.5 1.5 0 0 0 1.5 1.5h10.5a1.5 1.5 0 0 0 1.5-1.5V7.5L14.25 2.25z" />
@@ -280,10 +280,10 @@ const senderLabel = (sender) => {
                                             </div>
 
                                             <div class="min-w-0 flex-1">
-                                                <p class="truncate text-sm font-medium text-zinc-100">
+                                                <p class="truncate text-sm font-semibold text-[#1f2937]">
                                                     {{ attachment.file_name }}
                                                 </p>
-                                                <p class="text-xs uppercase tracking-wider text-zinc-400">
+                                                <p class="text-xs uppercase tracking-wider text-[#9ca3af]">
                                                     {{ attachment.display_type === 'image' ? 'Imagem' : 'PDF' }}
                                                 </p>
                                             </div>
@@ -293,27 +293,27 @@ const senderLabel = (sender) => {
 
                                 <p
                                     v-if="ticket.messages.length === 0"
-                                    class="rounded-md border border-dashed border-zinc-700 bg-zinc-800/50 p-4 text-sm text-zinc-400"
+                                    class="rounded-2xl border border-dashed border-[#c4b5fd] bg-[#faf5ff] p-4 text-sm text-[#9ca3af]"
                                 >
                                     Ainda não há mensagens neste ticket.
                                 </p>
                             </div>
 
                             <form @submit.prevent="submitMessage" class="mt-4 space-y-3">
-                                <label class="block text-sm font-medium text-zinc-200" for="message-body">
+                                <label class="tm-label" for="message-body">
                                     Nova mensagem
                                 </label>
                                 <textarea
                                     id="message-body"
                                     v-model="messageForm.body"
                                     rows="4"
-                                    class="block w-full rounded-md border-zinc-700 bg-zinc-800 text-zinc-100 shadow-sm focus:border-emerald-400 focus:ring-emerald-400"
+                                    class="tm-textarea block"
                                     placeholder="Digite sua mensagem"
                                 />
 
                                 <InputError :message="messageForm.errors.body" />
 
-                                <div v-if="isClient" class="space-y-3 rounded-lg border border-dashed border-zinc-700 bg-zinc-800/40 p-4">
+                                <div v-if="isClient" class="space-y-3 rounded-2xl border border-dashed border-[#c4b5fd] bg-[#faf5ff] p-4">
                                     <input
                                         ref="attachmentInput"
                                         type="file"
@@ -325,7 +325,7 @@ const senderLabel = (sender) => {
 
                                     <button
                                         type="button"
-                                        class="inline-flex items-center gap-2 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm font-medium text-zinc-100 transition hover:border-emerald-400 hover:text-emerald-300"
+                                        class="tm-btn-secondary items-center gap-2 px-3 py-2"
                                         @click="openAttachmentPicker"
                                     >
                                         <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" stroke="currentColor">
@@ -334,7 +334,7 @@ const senderLabel = (sender) => {
                                         Anexar arquivo
                                     </button>
 
-                                    <p class="text-xs text-zinc-400">
+                                    <p class="text-xs text-[#9ca3af]">
                                         JPG, JPEG, PNG, GIF, WEBP ou PDF até 10 MB por arquivo.
                                     </p>
 
@@ -346,20 +346,20 @@ const senderLabel = (sender) => {
                                         <div
                                             v-for="(attachment, index) in selectedAttachments"
                                             :key="`${attachment.name}-${index}`"
-                                            class="flex items-center justify-between gap-3 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2"
+                                            class="flex items-center justify-between gap-3 rounded-2xl border border-[#ddd6fe] bg-white px-3 py-2"
                                         >
                                             <div class="min-w-0">
-                                                <p class="truncate text-sm text-zinc-100">
+                                                <p class="truncate text-sm text-[#1f2937]">
                                                     {{ attachment.name }}
                                                 </p>
-                                                <p class="text-xs text-zinc-400">
+                                                <p class="text-xs text-[#9ca3af]">
                                                     {{ formatFileSize(attachment.size) }}
                                                 </p>
                                             </div>
 
                                             <button
                                                 type="button"
-                                                class="text-xs font-semibold uppercase tracking-wider text-zinc-400 transition hover:text-red-300"
+                                                class="text-xs font-semibold uppercase tracking-wider text-[#6b7280] transition hover:text-red-500"
                                                 @click="removeAttachment(index)"
                                             >
                                                 Remover
@@ -378,10 +378,10 @@ const senderLabel = (sender) => {
 
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div>
-                                <p class="text-sm font-medium uppercase tracking-wider text-emerald-300">
+                                <p class="text-sm font-semibold uppercase tracking-wider text-[#6b21a8]">
                                     Criado em
                                 </p>
-                                <p class="mt-1 text-sm text-zinc-300">
+                                <p class="mt-1 text-sm text-[#374151]">
                                     {{ formatDate(ticket.created_at) }}
                                 </p>
                             </div>
@@ -391,7 +391,7 @@ const senderLabel = (sender) => {
                         <div class="flex items-center justify-end gap-4">
                             <Link
                                 :href="route('dashboard')"
-                                class="inline-flex items-center rounded-md border border-zinc-700 bg-zinc-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-zinc-100 transition duration-150 ease-in-out hover:border-emerald-400 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-50"
+                                class="tm-btn-secondary rounded-full px-4 py-2 text-xs uppercase tracking-widest"
                             >
                                 Voltar ao Dashboard
                             </Link>
@@ -405,17 +405,17 @@ const senderLabel = (sender) => {
             <div v-if="previewAttachment" class="space-y-4 p-6">
                 <div class="flex items-center justify-between gap-4">
                     <div>
-                        <p class="text-sm font-semibold uppercase tracking-wider text-emerald-300">
+                        <p class="text-sm font-semibold uppercase tracking-wider text-[#6b21a8]">
                             Pré-visualização
                         </p>
-                        <h3 class="mt-1 text-lg font-semibold text-zinc-100">
+                        <h3 class="mt-1 text-lg font-bold text-[#111827]">
                             {{ previewAttachment.file_name }}
                         </h3>
                     </div>
 
                     <button
                         type="button"
-                        class="rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 transition hover:border-emerald-400 hover:text-emerald-300"
+                        class="tm-btn-secondary px-3 py-2 text-sm"
                         @click="closeAttachmentPreview"
                     >
                         Fechar
@@ -425,7 +425,7 @@ const senderLabel = (sender) => {
                 <img
                     :src="previewAttachment.public_url"
                     :alt="previewAttachment.file_name"
-                    class="max-h-[75vh] w-full rounded-lg object-contain bg-zinc-950"
+                    class="max-h-[75vh] w-full rounded-2xl object-contain bg-[#faf5ff]"
                 >
             </div>
         </Modal>

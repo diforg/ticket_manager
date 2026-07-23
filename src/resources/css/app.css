@@ -1,3 +1,113 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	:root {
+		--tm-bg: #ffffff;
+		--tm-surface: #ffffff;
+		--tm-surface-soft: #faf5ff;
+		--tm-border: #ddd6fe;
+		--tm-border-strong: #c4b5fd;
+		--tm-primary: #6b21a8;
+		--tm-primary-strong: #5b21b6;
+		--tm-primary-soft: #7c3aed;
+		--tm-text: #1f2937;
+		--tm-text-title: #111827;
+		--tm-text-muted: #9ca3af;
+		--tm-danger: #dc2626;
+	}
+
+	body {
+		@apply bg-white font-sans antialiased;
+		color: var(--tm-text);
+	}
+
+	::selection {
+		background: #ede9fe;
+		color: var(--tm-primary);
+	}
+}
+
+@layer components {
+	.tm-page {
+		@apply min-h-screen bg-white;
+		color: var(--tm-text);
+		background-image: radial-gradient(circle at 100% -5%, #ede9fe 0%, transparent 35%), radial-gradient(circle at -5% 100%, #faf5ff 0%, transparent 30%);
+	}
+
+	.tm-container {
+		@apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+	}
+
+	.tm-card {
+		@apply rounded-3xl border bg-white shadow-sm;
+		border-color: var(--tm-border);
+	}
+
+	.tm-label {
+		@apply block text-sm font-medium;
+		color: var(--tm-primary-soft);
+	}
+
+	.tm-input,
+	.tm-select,
+	.tm-textarea {
+		@apply w-full rounded-2xl border px-4 py-3 text-sm shadow-sm transition duration-150;
+		border-color: var(--tm-border-strong);
+		background-color: #f5f3ff;
+		color: var(--tm-text);
+	}
+
+	.tm-input::placeholder,
+	.tm-textarea::placeholder {
+		color: #a78bfa;
+	}
+
+	.tm-input:focus,
+	.tm-select:focus,
+	.tm-textarea:focus {
+		@apply outline-none ring-2;
+		border-color: var(--tm-primary-soft);
+		--tw-ring-color: rgba(124, 58, 237, 0.2);
+	}
+
+	.tm-btn-primary {
+		@apply inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm font-bold transition duration-200;
+		border-color: var(--tm-primary-strong);
+		background-color: var(--tm-primary-strong);
+		color: #ffffff;
+	}
+
+	.tm-btn-primary:hover {
+		background-color: #4c1d95;
+		border-color: #4c1d95;
+	}
+
+	.tm-btn-secondary {
+		@apply inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm font-semibold transition duration-200;
+		border-color: var(--tm-border-strong);
+		background-color: #ffffff;
+		color: var(--tm-primary);
+	}
+
+	.tm-btn-secondary:hover {
+		background-color: #faf5ff;
+	}
+
+	.tm-btn-danger {
+		@apply inline-flex items-center justify-center rounded-2xl border px-5 py-3 text-sm font-semibold transition duration-200;
+		border-color: #fca5a5;
+		background-color: #fee2e2;
+		color: var(--tm-danger);
+	}
+
+	.tm-link {
+		@apply underline underline-offset-2;
+		color: var(--tm-primary);
+	}
+
+	.tm-link:hover {
+		color: #581c87;
+	}
+}

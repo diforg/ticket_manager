@@ -23,16 +23,14 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
+        <Head title="Verificacao de E-mail" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
+        <div class="mb-4 text-sm text-[#6b7280]">
+            Obrigado por se cadastrar. Antes de comecar, confirme seu e-mail clicando no link que acabamos de enviar.
         </div>
 
         <div
-            class="mb-4 text-sm font-medium text-green-600"
+            class="mb-4 rounded-2xl border border-[#c4b5fd] bg-[#f5f3ff] px-4 py-3 text-sm font-medium text-[#6b21a8]"
             v-if="verificationLinkSent"
         >
             A new verification link has been sent to the email address you
@@ -42,18 +40,18 @@ const verificationLinkSent = computed(
         <form @submit.prevent="submit">
             <div class="mt-4 flex items-center justify-between">
                 <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
+                    :class="{ 'opacity-60': form.processing }"
                     :disabled="form.processing"
                 >
-                    Resend Verification Email
+                    Reenviar e-mail de verificacao
                 </PrimaryButton>
 
                 <Link
                     :href="route('logout')"
                     method="post"
                     as="button"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >Log Out</Link
+                    class="tm-link text-sm"
+                    >Sair</Link
                 >
             </div>
         </form>

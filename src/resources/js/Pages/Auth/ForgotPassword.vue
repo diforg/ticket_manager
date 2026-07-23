@@ -23,15 +23,15 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
+        <Head title="Recuperar Senha" />
 
-        <div class="mb-4 text-sm text-zinc-400">
+        <div class="mb-4 text-sm text-[#6b7280]">
             Esqueceu sua senha? Sem problemas. Basta nos informar seu endereço de e-mail e enviaremos um link de redefinição de senha que permitirá que você escolha uma nova.
         </div>
 
         <div
             v-if="status"
-            class="mb-4 text-sm font-medium text-green-600"
+            class="mb-4 rounded-2xl border border-[#c4b5fd] bg-[#f5f3ff] px-4 py-3 text-sm font-medium text-[#6b21a8]"
         >
             {{ status }}
         </div>
@@ -55,7 +55,7 @@ const submit = () => {
 
             <div class="mt-4 flex items-center justify-end">
                 <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
+                    :class="{ 'opacity-60': form.processing }"
                     :disabled="form.processing"
                 >
                     Link de redefinição de senha

@@ -41,11 +41,11 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <h2 class="text-lg font-medium text-zinc-100">
+            <h2 class="text-lg font-bold text-[#111827]">
                 Deletar Conta
             </h2>
 
-            <p class="mt-1 text-sm text-zinc-300">
+            <p class="mt-1 text-sm text-[#6b7280]">
                 Uma vez que sua conta seja deletada, todos os seus recursos e dados serão
                 permanentemente deletados. Antes de deletar sua conta, por favor
                 baixe quaisquer dados ou informações que você deseja manter.
@@ -57,12 +57,12 @@ const closeModal = () => {
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
                 <h2
-                    class="text-lg font-medium text-zinc-100"
+                    class="text-lg font-bold text-[#111827]"
                 >
                     Tem certeza de que deseja deletar sua conta?
                 </h2>
 
-                <p class="mt-1 text-sm text-zinc-300">
+                <p class="mt-1 text-sm text-[#6b7280]">
                     Uma vez que sua conta seja deletada, todos os seus recursos e dados
                     serão permanentemente deletados. Por favor, insira sua senha para
                     confirmar que você deseja deletar permanentemente sua conta.
