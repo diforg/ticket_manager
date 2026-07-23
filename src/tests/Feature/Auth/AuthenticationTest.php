@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -27,7 +28,38 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('client.dashboard', absolute: false));
+    }
+
+    public function test_attendants_are_redirected_to_attendant_dashboard_after_login(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'attendant',
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('attendant.dashboard', absolute: false));
+    }
+
+    public function test_login_redirect_chain_resolves_dashboard_page_successfully(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'client',
+        ]);
+
+        $response = $this->followingRedirects()->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('Dashboard/Client'));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

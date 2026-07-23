@@ -13,6 +13,11 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    private function dashboardRouteFor(?string $role): string
+    {
+        return $role === 'attendant' ? 'attendant.dashboard' : 'client.dashboard';
+    }
+
     /**
      * Display the login view.
      */
@@ -33,7 +38,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $dashboardRoute = $this->dashboardRouteFor($request->user()?->role);
+
+        return redirect()->intended(route($dashboardRoute, absolute: false));
     }
 
     /**
