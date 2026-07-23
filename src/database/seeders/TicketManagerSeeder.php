@@ -99,7 +99,7 @@ class TicketManagerSeeder extends Seeder
         DB::table('attachments')->insert([
             'message_id' => $messageOneId,
             'file_path' => 'attachments/print-erro-boleto-001.png',
-            'original_name' => 'print-erro-boleto.png',
+            'file_name' => 'print-erro-boleto.png',
             'mime_type' => 'image/png',
             'size' => 245123,
             'created_at' => $now,

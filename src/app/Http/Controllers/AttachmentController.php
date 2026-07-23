@@ -27,7 +27,7 @@ class AttachmentController extends Controller
 
         return $storage->response(
             $attachment->file_path,
-            $attachment->original_name,
+            $attachment->file_name,
             ['Content-Type' => $attachment->mime_type ?? 'application/octet-stream']
         );
     }

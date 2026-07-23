@@ -265,7 +265,7 @@ const senderLabel = (sender) => {
                                             <img
                                                 v-if="attachment.display_type === 'image'"
                                                 :src="attachment.public_url"
-                                                :alt="attachment.original_name"
+                                                :alt="attachment.file_name"
                                                 class="h-12 w-12 rounded object-cover"
                                             >
                                             <div
@@ -281,7 +281,7 @@ const senderLabel = (sender) => {
 
                                             <div class="min-w-0 flex-1">
                                                 <p class="truncate text-sm font-medium text-zinc-100">
-                                                    {{ attachment.original_name }}
+                                                    {{ attachment.file_name }}
                                                 </p>
                                                 <p class="text-xs uppercase tracking-wider text-zinc-400">
                                                     {{ attachment.display_type === 'image' ? 'Imagem' : 'PDF' }}
@@ -409,7 +409,7 @@ const senderLabel = (sender) => {
                             Pré-visualização
                         </p>
                         <h3 class="mt-1 text-lg font-semibold text-zinc-100">
-                            {{ previewAttachment.original_name }}
+                            {{ previewAttachment.file_name }}
                         </h3>
                     </div>
 
@@ -424,7 +424,7 @@ const senderLabel = (sender) => {
 
                 <img
                     :src="previewAttachment.public_url"
-                    :alt="previewAttachment.original_name"
+                    :alt="previewAttachment.file_name"
                     class="max-h-[75vh] w-full rounded-lg object-contain bg-zinc-950"
                 >
             </div>

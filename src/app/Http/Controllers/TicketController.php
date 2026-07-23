@@ -111,7 +111,7 @@ class TicketController extends Controller
                     'attachments' => $message->attachments->map(fn ($attachment): array => [
                         'id' => $attachment->id,
                         'file_path' => $attachment->file_path,
-                        'original_name' => $attachment->original_name,
+                        'file_name' => $attachment->file_name,
                         'mime_type' => $attachment->mime_type,
                         'size' => $attachment->size,
                         'public_url' => $attachment->public_url,
@@ -138,7 +138,7 @@ class TicketController extends Controller
 
                 $message->attachments()->create([
                     'file_path' => $storedPath,
-                    'original_name' => $uploadedFile->getClientOriginalName(),
+                    'file_name' => $uploadedFile->getClientOriginalName(),
                     'mime_type' => $uploadedFile->getClientMimeType(),
                     'size' => $uploadedFile->getSize(),
                 ]);
