@@ -102,6 +102,8 @@ class TicketManagerSeeder extends Seeder
             'file_name' => 'print-erro-boleto.png',
             'mime_type' => 'image/png',
             'size' => 245123,
+            'created_at' => $now,
+            'updated_at' => $now,
         ]);
     }
 }

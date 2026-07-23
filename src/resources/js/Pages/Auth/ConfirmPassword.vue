@@ -19,11 +19,10 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Confirm Password" />
+        <Head title="Confirmar Senha" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your
-            password before continuing.
+        <div class="mb-4 text-sm text-[#6b7280]">
+            Esta e uma area segura da aplicacao. Confirme sua senha para continuar.
         </div>
 
         <form @submit.prevent="submit">
@@ -44,10 +43,10 @@ const submit = () => {
             <div class="mt-4 flex justify-end">
                 <PrimaryButton
                     class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
+                    :class="{ 'opacity-60': form.processing }"
                     :disabled="form.processing"
                 >
-                    Confirm
+                    Confirmar
                 </PrimaryButton>
             </div>
         </form>

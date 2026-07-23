@@ -25,11 +25,11 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-zinc-100">
+            <h2 class="text-lg font-bold text-[#111827]">
                 Informações do Perfil
             </h2>
 
-            <p class="mt-1 text-sm text-zinc-300">
+            <p class="mt-1 text-sm text-[#6b7280]">
                 Atualize as informações do seu perfil e endereço de e-mail.
             </p>
         </header>
@@ -70,13 +70,13 @@ const form = useForm({
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-zinc-300">
+                <p class="mt-2 text-sm text-[#6b7280]">
                     Seu endereço de e-mail não está verificado.
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-zinc-300 underline hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="tm-link rounded-md text-sm"
                     >
                         Clique aqui para reenviar o e-mail de verificação.
                     </Link>
@@ -84,7 +84,7 @@ const form = useForm({
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-emerald-300"
+                    class="mt-2 text-sm font-medium text-[#6b21a8]"
                 >
                     Um novo link de verificação foi enviado para o seu endereço de e-mail.
                 </div>
@@ -101,7 +101,7 @@ const form = useForm({
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-emerald-300"
+                        class="text-sm text-[#6b21a8]"
                     >
                         Salvo.
                     </p>

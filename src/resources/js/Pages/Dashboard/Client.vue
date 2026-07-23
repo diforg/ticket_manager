@@ -17,15 +17,15 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-zinc-100">
+            <h2 class="text-xl font-extrabold leading-tight text-[#111827]">
                 Dashboard do Cliente
             </h2>
         </template>
 
-        <div class="py-12 bg-[#080808]">
+        <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-zinc-300">
+                    <p class="text-sm text-[#6b7280]">
                         Listagem dos seus tickets de suporte.
                     </p>
                     

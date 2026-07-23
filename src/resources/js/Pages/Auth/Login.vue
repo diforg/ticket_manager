@@ -29,29 +29,29 @@ const submit = () => {
         <Head title="Entrar" />
 
         <div class="mb-6 text-center">
-            <h1 class="text-2xl font-semibold tracking-tight text-white">Entrar</h1>
-            <p class="mt-2 text-sm text-zinc-400">
+            <h1 class="text-3xl font-extrabold tracking-tight text-[#111827]">Entrar</h1>
+            <p class="mt-2 text-sm text-[#9ca3af]">
                 Acesse sua conta para acompanhar os tickets em andamento.
             </p>
         </div>
 
         <div
             v-if="status"
-            class="mb-4 rounded-xl border border-emerald-400/35 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-200"
+            class="mb-4 rounded-2xl border border-[#c4b5fd] bg-[#f5f3ff] px-4 py-3 text-sm font-medium text-[#6b21a8]"
         >
             {{ status }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-4">
             <div>
-                <label for="email" class="block text-sm font-medium text-zinc-200">
+                <label for="email" class="tm-label">
                     E-mail
                 </label>
 
                 <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.email"
                     required
                     autofocus
@@ -67,7 +67,7 @@ const submit = () => {
             <div>
                 <label
                     for="password"
-                    class="block text-sm font-medium text-zinc-200"
+                    class="tm-label"
                 >
                     Senha
                 </label>
@@ -75,7 +75,7 @@ const submit = () => {
                 <input
                     id="password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
@@ -88,12 +88,12 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-between gap-4">
-                <label class="inline-flex items-center gap-2 text-sm text-zinc-300">
+                <label class="inline-flex items-center gap-2 text-sm text-[#374151]">
                     <input
                         name="remember"
                         type="checkbox"
                         v-model="form.remember"
-                        class="h-4 w-4 rounded border-white/20 bg-black/35 text-emerald-400 focus:ring-2 focus:ring-emerald-400/45"
+                        class="h-4 w-4 rounded-md border border-[#c4b5fd] bg-[#f5f3ff] text-[#6b21a8] focus:ring-2 focus:ring-[#7c3aed]/35"
                     />
                     Lembrar-me
                 </label>
@@ -101,7 +101,7 @@ const submit = () => {
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="text-sm text-zinc-300 transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                    class="tm-link text-sm"
                 >
                     Esqueci minha senha
                 </Link>
@@ -109,27 +109,27 @@ const submit = () => {
 
             <button
                 type="submit"
-                class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-6 py-3 text-sm font-semibold text-black shadow-[0_0_30px_rgba(16,185,129,0.25)] transition duration-200 hover:bg-emerald-300 hover:shadow-[0_0_42px_rgba(16,185,129,0.35)] focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-[#0b0b0b] disabled:cursor-not-allowed disabled:opacity-60"
+                class="tm-btn-primary w-full"
                 :class="{ 'opacity-80': form.processing }"
                 :disabled="form.processing"
             >
                 Entrar
             </button>
 
-            <div class="pt-1 text-center text-sm text-zinc-400">
+            <div class="pt-1 text-center text-sm text-[#9ca3af]">
                 Não tem uma conta?
                 <Link
                     :href="route('register')"
-                    class="font-medium text-zinc-200 transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                    class="tm-link font-semibold"
                 >
                     Cadastre-se
                 </Link>
             </div>
 
-            <div class="text-center text-sm text-zinc-500">
+            <div class="text-center text-sm text-[#9ca3af]">
                 <Link
                     href="/"
-                    class="transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                    class="tm-link"
                 >
                     Voltar para a página inicial
                 </Link>

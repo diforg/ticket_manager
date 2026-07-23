@@ -27,14 +27,14 @@ const cancel = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-zinc-100">
+            <h2 class="text-xl font-extrabold leading-tight text-[#111827]">
                 Novo Ticket
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                <div class="bg-zinc-900 border border-zinc-700 p-4 sm:rounded-lg sm:p-8">
+                <div class="tm-card p-4 sm:p-8">
                     <form @submit.prevent="submit" class="space-y-6">
                         <div>
                             <InputLabel for="title" value="Título" />

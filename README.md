@@ -51,6 +51,42 @@ Aplicação web: `http://localhost:8080`
 
 Vite (dev server): `http://localhost:5173`
 
+### Upload de anexos
+
+O fluxo de anexos usa o disco padrão do Laravel configurado em `FILESYSTEM_DISK`.
+
+Por padrão, o projeto grava os arquivos no disco `local`, em `storage/app/public/attachments`, e expõe os arquivos via `storage:link`.
+
+Passo necessário no setup:
+
+```bash
+docker compose exec app php artisan storage:link
+```
+
+Para alternar para S3 em produção, basta mudar a variável:
+
+```env
+FILESYSTEM_DISK=s3
+```
+
+As credenciais do S3 já estão preparadas no arquivo `.env` do Laravel:
+
+```env
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_URL=
+AWS_ENDPOINT=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+```
+
+Se você ainda não instalou a dependência do driver S3, execute:
+
+```bash
+docker compose exec app composer require league/flysystem-aws-s3-v3
+```
+
 ## Pontos de acesso para teste
 
 Com os containers em execucao, os endpoints abaixo ja podem ser acessados:
@@ -74,7 +110,8 @@ docker compose exec node npm install
 # 3) gerar chave da aplicacao
 docker compose exec app php artisan key:generate
 
-# 4) configurar banco no .env e executar migrations
+# 4) configurar banco no .env, storage link e executar migrations
+docker compose exec app php artisan storage:link
 docker compose exec app php artisan migrate
 
 # 5) executar a suite de testes

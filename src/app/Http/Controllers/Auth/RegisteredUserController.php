@@ -16,6 +16,11 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    private function dashboardRouteFor(?string $role): string
+    {
+        return $role === 'attendant' ? 'attendant.dashboard' : 'client.dashboard';
+    }
+
     /**
      * Display the registration view.
      */
@@ -49,6 +54,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route($this->dashboardRouteFor($user->role));
     }
 }

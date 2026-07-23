@@ -22,22 +22,22 @@ const submit = () => {
         <Head title="Cadastrar" />
 
         <div class="mb-6 text-center">
-            <h1 class="text-2xl font-semibold tracking-tight text-white">Criar conta</h1>
-            <p class="mt-2 text-sm text-zinc-400">
+            <h1 class="text-3xl font-extrabold tracking-tight text-[#111827]">Criar conta</h1>
+            <p class="mt-2 text-sm text-[#9ca3af]">
                 Cadastre-se para abrir e acompanhar seus tickets de suporte.
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-4">
             <div>
-                <label for="name" class="block text-sm font-medium text-zinc-200">
+                <label for="name" class="tm-label">
                     Nome
                 </label>
 
                 <input
                     id="name"
                     type="text"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.name"
                     required
                     autofocus
@@ -51,14 +51,14 @@ const submit = () => {
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium text-zinc-200">
+                <label for="email" class="tm-label">
                     E-mail
                 </label>
 
                 <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -71,12 +71,12 @@ const submit = () => {
             </div>
 
             <fieldset>
-                <legend class="block text-sm font-medium text-zinc-200">Perfil</legend>
+                <legend class="tm-label">Perfil</legend>
 
-                <div class="mt-2 grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/35 p-1">
+                <div class="mt-2 grid grid-cols-2 gap-2 rounded-2xl border border-[#ddd6fe] bg-[#faf5ff] p-1">
                     <label
-                        class="flex cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm transition duration-200"
-                        :class="form.role === 'client' ? 'bg-emerald-400/20 text-emerald-200 ring-1 ring-emerald-400/40' : 'text-zinc-300 hover:bg-white/5'"
+                        class="flex cursor-pointer items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold transition duration-200"
+                        :class="form.role === 'client' ? 'bg-[#6b21a8] text-white' : 'text-[#6b21a8] hover:bg-[#ede9fe]'"
                     >
                         <input
                             v-model="form.role"
@@ -89,8 +89,8 @@ const submit = () => {
                     </label>
 
                     <label
-                        class="flex cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm transition duration-200"
-                        :class="form.role === 'attendant' ? 'bg-emerald-400/20 text-emerald-200 ring-1 ring-emerald-400/40' : 'text-zinc-300 hover:bg-white/5'"
+                        class="flex cursor-pointer items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold transition duration-200"
+                        :class="form.role === 'attendant' ? 'bg-[#6b21a8] text-white' : 'text-[#6b21a8] hover:bg-[#ede9fe]'"
                     >
                         <input
                             v-model="form.role"
@@ -111,7 +111,7 @@ const submit = () => {
             <div>
                 <label
                     for="password"
-                    class="block text-sm font-medium text-zinc-200"
+                    class="tm-label"
                 >
                     Senha
                 </label>
@@ -119,7 +119,7 @@ const submit = () => {
                 <input
                     id="password"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
@@ -134,7 +134,7 @@ const submit = () => {
             <div>
                 <label
                     for="password_confirmation"
-                    class="block text-sm font-medium text-zinc-200"
+                    class="tm-label"
                 >
                     Confirmar senha
                 </label>
@@ -142,7 +142,7 @@ const submit = () => {
                 <input
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-500 shadow-inner shadow-black/30 transition duration-200 focus:border-emerald-400/70 focus:outline-none focus:ring-2 focus:ring-emerald-400/35"
+                    class="tm-input mt-1 block"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
@@ -156,27 +156,27 @@ const submit = () => {
 
             <button
                 type="submit"
-                class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-6 py-3 text-sm font-semibold text-black shadow-[0_0_30px_rgba(16,185,129,0.25)] transition duration-200 hover:bg-emerald-300 hover:shadow-[0_0_42px_rgba(16,185,129,0.35)] focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-[#0b0b0b] disabled:cursor-not-allowed disabled:opacity-60"
+                class="tm-btn-primary w-full"
                 :class="{ 'opacity-80': form.processing }"
                 :disabled="form.processing"
             >
                 Cadastrar
             </button>
 
-            <div class="pt-1 text-center text-sm text-zinc-400">
+            <div class="pt-1 text-center text-sm text-[#9ca3af]">
                 Já tem uma conta?
                 <Link
                     :href="route('login')"
-                    class="font-medium text-zinc-200 transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                    class="tm-link font-semibold"
                 >
                     Entrar
                 </Link>
             </div>
 
-            <div class="text-center text-sm text-zinc-500">
+            <div class="text-center text-sm text-[#9ca3af]">
                 <Link
                     href="/"
-                    class="transition duration-200 hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-[#0b0b0b]"
+                    class="tm-link"
                 >
                     Voltar para a página inicial
                 </Link>
